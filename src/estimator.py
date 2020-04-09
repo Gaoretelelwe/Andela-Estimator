@@ -12,7 +12,7 @@ def get_severeCasesByRequestedTime(infectionsByRequestedTime):
     return int(severeCasesByRequestedTime)
 
 def get_hospitalBedsByRequestedTime(severeCasesByRequestedTime, totalHospitalBeds):
-    expectedHospitalBeds = int(totalHospitalBeds * (35 / 100))
+    expectedHospitalBeds = totalHospitalBeds * (35 / 100)
     hospitalBedsByRequestedTime = expectedHospitalBeds - severeCasesByRequestedTime
     return int(hospitalBedsByRequestedTime)
 
@@ -24,13 +24,15 @@ def get_casesForVentilatorsByRequestedTime(infectionsByRequestedTime):
     casesForVentilatorsByRequestedTime = infectionsByRequestedTime * (2 / 100)
     return int(casesForVentilatorsByRequestedTime)
 
-def get_dollarsInFlight(infectionsByRequestedTime):
-    dollarsInFlight = infectionsByRequestedTime * 0.65 * 1.5 * 30
+def get_dollarsInFlight(infectionsByRequestedTime, avgDailyIncomePopulation, avgDailyIncomeInUSD, timeToElapse):
+    dollarsInFlight = infectionsByRequestedTime * avgDailyIncomePopulation * avgDailyIncomeInUSD * timeToElapse
     return round(dollarsInFlight, 2)
 
 def estimator(data):
 
     periodType = data["periodType"]
+    avgDailyIncomePopulation = data["region"]["avgDailyIncomePopulation"]
+    avgDailyIncomeInUSD = data["region"]["avgDailyIncomeInUSD"]
     timeToElapse = data["timeToElapse"]
     
     if periodType == 'months':
@@ -46,7 +48,7 @@ def estimator(data):
     impact.update({"hospitalBedsByRequestedTime": get_hospitalBedsByRequestedTime(impact["severeCasesByRequestedTime"], data["totalHospitalBeds"])})
     impact.update({"casesForICUByRequestedTime": get_casesForICUByRequestedTime(impact["infectionsByRequestedTime"])})
     impact.update({"casesForVentilatorsByRequestedTime": get_casesForVentilatorsByRequestedTime(impact["infectionsByRequestedTime"])})
-    impact.update({"dollarsInFlight": get_dollarsInFlight(impact["infectionsByRequestedTime"])})
+    impact.update({"dollarsInFlight": get_dollarsInFlight(impact["infectionsByRequestedTime"], avgDailyIncomePopulation, avgDailyIncomeInUSD, timeToElapse)})
     
     severeImpact = {}
     severeImpact.update({"currentlyInfected": get_currentlyInfected(data["reportedCases"], 50)})
@@ -55,7 +57,7 @@ def estimator(data):
     severeImpact.update({"hospitalBedsByRequestedTime": get_hospitalBedsByRequestedTime(severeImpact["severeCasesByRequestedTime"], data["totalHospitalBeds"])})
     severeImpact.update({"casesForICUByRequestedTime": get_casesForICUByRequestedTime(severeImpact["infectionsByRequestedTime"])})
     severeImpact.update({"casesForVentilatorsByRequestedTime": get_casesForVentilatorsByRequestedTime(severeImpact["infectionsByRequestedTime"])})
-    severeImpact.update({"dollarsInFlight": get_dollarsInFlight(severeImpact["infectionsByRequestedTime"])})
+    severeImpact.update({"dollarsInFlight": get_dollarsInFlight(severeImpact["infectionsByRequestedTime"], avgDailyIncomePopulation, avgDailyIncomeInUSD, timeToElapse)})
     
     estimate = {}
     estimate.update({"impact": impact})
