@@ -33,7 +33,7 @@ def estimator(data):
     periodType = data["periodType"]
     avgDailyIncomePopulation = data["region"]["avgDailyIncomePopulation"]
     avgDailyIncomeInUSD = data["region"]["avgDailyIncomeInUSD"]
-    timeToElapse = data["timeToElapse"]
+    timeToElapse = int(data["timeToElapse"])
     
     if periodType == 'months':
         timeToElapse = int(data["timeToElapse"]) * 30
