@@ -25,8 +25,8 @@ def get_casesForVentilatorsByRequestedTime(infectionsByRequestedTime):
     return int(casesForVentilatorsByRequestedTime)
 
 def get_dollarsInFlight(infectionsByRequestedTime, avgDailyIncomePopulation, avgDailyIncomeInUSD, timeToElapse):
-    dollarsInFlight = infectionsByRequestedTime * avgDailyIncomePopulation * avgDailyIncomeInUSD * timeToElapse
-    return round(dollarsInFlight, 2)
+    dollarsInFlight = (infectionsByRequestedTime * avgDailyIncomePopulation * avgDailyIncomeInUSD) / timeToElapse
+    return int(dollarsInFlight)
 
 def estimator(data):
 
@@ -63,9 +63,5 @@ def estimator(data):
     estimate.update({"data": data})
     estimate.update({"impact": impact})
     estimate.update({"severeImpact": severeImpact})
-    
-    #estimator = {}
-    #estimator.update({"data": data})
-    #estimator.update({"estimate": estimate})
     
     return estimate
