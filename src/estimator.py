@@ -57,10 +57,11 @@ def estimator(data):
     severeImpact.update({"casesForVentilatorsByRequestedTime": get_casesForVentilatorsByRequestedTime(severeImpact["infectionsByRequestedTime"])})
     severeImpact.update({"dollarsInFlight": get_dollarsInFlight(severeImpact["infectionsByRequestedTime"])})
     
-    estimator = {}
+    estimate = {}
+    estimate.update({"impact": impact})
+    estimate.update({"severeImpact": severeImpact})
     
-    estimator.update({"data": data})
-    estimator.update({"impact": impact})
-    estimator.update({"severeImpact": severeImpact})
+    estimator = {}
+    estimator.update({"data": data, "estimate": estimate})
     
     return estimator
