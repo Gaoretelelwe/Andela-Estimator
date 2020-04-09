@@ -2,7 +2,7 @@ def get_currentlyInfected(reportedCases, multiplier):
     return reportedCases * multiplier
 
 def get_infectionsByRequestedTime(currentlyInfected, timeToElapse):
-    factor = timeToElapse / 3
+    factor = int(timeToElapse / 3)
     result = currentlyInfected * pow(2, factor)
     result = int(result)
     return result
@@ -41,7 +41,7 @@ def estimator(data):
     
     impact = {}
     impact.update({"currentlyInfected": get_currentlyInfected(data["reportedCases"], 10)})
-    impact.update({"infectionsByRequestedTime": get_currentlyInfected(impact["currentlyInfected"], timeToElapse)})
+    impact.update({"infectionsByRequestedTime": get_infectionsByRequestedTime(impact["currentlyInfected"], timeToElapse)})
     impact.update({"severeCasesByRequestedTime": get_severeCasesByRequestedTime(impact["infectionsByRequestedTime"])})
     impact.update({"hospitalBedsByRequestedTime": get_hospitalBedsByRequestedTime(impact["severeCasesByRequestedTime"], data["totalHospitalBeds"])})
     impact.update({"casesForICUByRequestedTime": get_casesForICUByRequestedTime(impact["infectionsByRequestedTime"])})
@@ -50,7 +50,7 @@ def estimator(data):
     
     severeImpact = {}
     severeImpact.update({"currentlyInfected": get_currentlyInfected(data["reportedCases"], 50)})
-    severeImpact.update({"infectionsByRequestedTime": get_currentlyInfected(severeImpact["currentlyInfected"], timeToElapse)})
+    severeImpact.update({"infectionsByRequestedTime": get_infectionsByRequestedTime(severeImpact["currentlyInfected"], timeToElapse)})
     severeImpact.update({"severeCasesByRequestedTime": get_severeCasesByRequestedTime(severeImpact["infectionsByRequestedTime"])})
     severeImpact.update({"hospitalBedsByRequestedTime": get_hospitalBedsByRequestedTime(severeImpact["severeCasesByRequestedTime"], data["totalHospitalBeds"])})
     severeImpact.update({"casesForICUByRequestedTime": get_casesForICUByRequestedTime(severeImpact["infectionsByRequestedTime"])})
