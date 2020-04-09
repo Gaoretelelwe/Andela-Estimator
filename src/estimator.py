@@ -60,10 +60,12 @@ def estimator(data):
     severeImpact.update({"dollarsInFlight": get_dollarsInFlight(severeImpact["infectionsByRequestedTime"], avgDailyIncomePopulation, avgDailyIncomeInUSD, timeToElapse)})
     
     estimate = {}
+    estimate.update({"data": data})
     estimate.update({"impact": impact})
     estimate.update({"severeImpact": severeImpact})
     
-    estimator = {}
-    estimator.update({"data": data, "estimate": estimate})
+    #estimator = {}
+    #estimator.update({"data": data})
+    #estimator.update({"estimate": estimate})
     
-    return estimator
+    return estimate
